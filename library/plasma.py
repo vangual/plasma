@@ -7,10 +7,11 @@ import RPi.GPIO as GPIO
 
 __version__ = '0.0.1'
 
-DAT = 14
-CLK = 15
+DAT = 15
+CLK = 14
 PIXELS_PER_LIGHT = 4
 DEFAULT_BRIGHTNESS = 3
+MAX_BRIGHTNESS = 3
 NUM_PIXELS = 0
 
 
@@ -26,6 +27,15 @@ def _exit():
         clear()
         show()
     GPIO.cleanup()
+
+
+def use_pins(data, clock):
+    """Set alternate data and clock pins for your Plasma chain."""
+    global DAT, CLK, _gpio_setup
+    if DAT != data or CLK != clock:
+        _gpio_setup = False
+    DAT = data
+    CLK = clock
 
 
 def set_light_count(light_count):
@@ -62,7 +72,7 @@ def set_brightness(brightness):
         raise ValueError('Brightness should be between 0.0 and 1.0')
 
     for x in range(_light_count * PIXELS_PER_LIGHT):
-        pixels[x][3] = int(3.0 * brightness) & 0b11111
+        pixels[x][3] = int(float(MAX_BRIGHTNESS) * brightness) & 0b11111
 
 
 def clear():
@@ -133,7 +143,7 @@ def set_all(r, g, b, brightness=None):
     :param r: Amount of red: 0 to 255
     :param g: Amount of green: 0 to 255
     :param b: Amount of blue: 0 to 255
-    :param brightness: Brightness: 0.0 to 1.0 (default around 0.2)
+    :param brightness: Brightness: 0.0 to 1.0 (default is 1.0)
 
     """
     for x in range(_light_count * PIXELS_PER_LIGHT):
@@ -147,7 +157,7 @@ def get_pixel(x):
 
     """
     r, g, b, brightness = pixels[x]
-    brightness /= 3.0
+    brightness /= float(MAX_BRIGHTNESS)
 
     return r, g, b, round(brightness, 3)
 
@@ -167,7 +177,7 @@ def set_pixel(x, r, g, b, brightness=None):
     if brightness is None:
         brightness = pixels[x][3]
     else:
-        brightness = int(3.0 * brightness) & 0b11111
+        brightness = int(float(MAX_BRIGHTNESS) * brightness) & 0b11111
 
     pixels[x] = [int(r) & 0xff, int(g) & 0xff, int(b) & 0xff, brightness]
 
