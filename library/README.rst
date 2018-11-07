@@ -1,11 +1,9 @@
-.. figure:: blinkt-logo.png
-   :alt: Blinkt!
-
-   Blinkt!
+.. figure:: plasma-logo.png
+   :alt: Plasma Logo
 
 |Build Status| |Coverage Status| |PyPi Package| |Python Versions|
 
-https://shop.pimoroni.com/products/blinkt
+https://shop.pimoroni.com/products/plasma
 
 Eight super-bright RGB LED indicators, ideal for adding visual
 notifications to your Raspberry Pi on their own or on a pHAT stacking
@@ -18,21 +16,20 @@ Full install (recommended):
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 We've created an easy installation script that will install all
-pre-requisites and get your Blinkt! up and running with minimal efforts.
-To run it, fire up Terminal which you'll find in Menu -> Accessories ->
-Terminal on your Raspberry Pi desktop, as illustrated below:
+pre-requisites and get your Plasma Arcade Button Lights up and running
+with minimal efforts. To run it, fire up Terminal which you'll find in
+Menu -> Accessories -> Terminal on your Raspberry Pi desktop, as
+illustrated below:
 
 .. figure:: http://get.pimoroni.com/resources/github-repo-terminal.png
    :alt: Finding the terminal
-
-   Finding the terminal
 
 In the new terminal window type the command exactly as it appears below
 (check for typos) and follow the on-screen instructions:
 
 .. code:: bash
 
-    curl https://get.pimoroni.com/blinkt | bash
+    curl https://get.pimoroni.com/plasma | bash
 
 Alternatively, on Raspbian, you can download the ``pimoroni-dashboard``
 and install your product by browsing to the relevant entry:
@@ -45,7 +42,7 @@ and install your product by browsing to the relevant entry:
 or just run ``pimoroni-dashboard`` at the command line)
 
 If you choose to download examples you'll find them in
-``/home/pi/Pimoroni/blinkt/``.
+``/home/pi/Pimoroni/plasma/``.
 
 Manual install:
 ~~~~~~~~~~~~~~~
@@ -57,13 +54,13 @@ on Raspbian:
 
 .. code:: bash
 
-    sudo apt-get install python3-blinkt
+    sudo apt-get install python3-plasmalights
 
 other environments:
 
 .. code:: bash
 
-    sudo pip3 install blinkt
+    sudo pip3 install plasmalights
 
 Library install for Python 2:
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -72,13 +69,13 @@ on Raspbian:
 
 .. code:: bash
 
-    sudo apt-get install python-blinkt
+    sudo apt-get install python-plasmalights
 
 other environments:
 
 .. code:: bash
 
-    sudo pip2 install blinkt
+    sudo pip2 install plasmalights
 
 Development:
 ~~~~~~~~~~~~
@@ -97,24 +94,15 @@ environment may be)
 Documentation & Support
 -----------------------
 
--  Guides and tutorials - https://learn.pimoroni.com/blinkt
--  Function reference - http://docs.pimoroni.com/blinkt/
--  GPIO Pinout - https://pinout.xyz/pinout/blinkt
+-  Guides and tutorials - https://learn.pimoroni.com/plasma
+-  Function reference - http://docs.pimoroni.com/plasma/
 -  Get help - http://forums.pimoroni.com/c/support
 
-Unofficial / Third-party libraries
-----------------------------------
-
--  Golang library & examples by `Alex
-   Ellis <https://www.alexellis.io>`__ -
-   https://github.com/alexellis/blinkt\_go\_examples
--  Java library by Jim Darby - https://github.com/hackerjimbo/PiJava
-
-.. |Build Status| image:: https://travis-ci.com/pimoroni/blinkt.svg?branch=master
-   :target: https://travis-ci.com/pimoroni/blinkt
-.. |Coverage Status| image:: https://coveralls.io/repos/github/pimoroni/blinkt/badge.svg?branch=master
-   :target: https://coveralls.io/github/pimoroni/blinkt?branch=master
-.. |PyPi Package| image:: https://img.shields.io/pypi/v/blinkt.svg
-   :target: https://pypi.python.org/pypi/blinkt
-.. |Python Versions| image:: https://img.shields.io/pypi/pyversions/blinkt.svg
-   :target: https://pypi.python.org/pypi/blinkt
+.. |Build Status| image:: https://travis-ci.com/pimoroni/plasma.svg?branch=master
+   :target: https://travis-ci.com/pimoroni/plasma
+.. |Coverage Status| image:: https://coveralls.io/repos/github/pimoroni/plasma/badge.svg?branch=master
+   :target: https://coveralls.io/github/pimoroni/plasma?branch=master
+.. |PyPi Package| image:: https://img.shields.io/pypi/v/plasmalights.svg
+   :target: https://pypi.python.org/pypi/plasmalights
+.. |Python Versions| image:: https://img.shields.io/pypi/pyversions/plasmalights.svg
+   :target: https://pypi.python.org/pypi/plasmalights

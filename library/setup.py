@@ -38,8 +38,8 @@ classifiers = ['Development Status :: 5 - Production/Stable',
                'Topic :: System :: Hardware']
 
 setup(
-    name='plasma',
-    version='0.1.2',
+    name='plasmalights',
+    version='0.0.1',
     author='Philip Howard',
     author_email='phil@pimoroni.com',
     description="""Python library for driving Pimoroni Plasma!""",

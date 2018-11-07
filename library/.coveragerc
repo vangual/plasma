@@ -1,4 +1,4 @@
 [run]
-source = blinkt
+source = plasma
 omit =
     .tox/*

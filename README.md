@@ -1,11 +1,11 @@
-![Blinkt!](blinkt-logo.png)
+![!](plasma-logo.png)
 
-[![Build Status](https://travis-ci.com/pimoroni/blinkt.svg?branch=master)](https://travis-ci.com/pimoroni/blinkt)
-[![Coverage Status](https://coveralls.io/repos/github/pimoroni/blinkt/badge.svg?branch=master)](https://coveralls.io/github/pimoroni/blinkt?branch=master)
-[![PyPi Package](https://img.shields.io/pypi/v/blinkt.svg)](https://pypi.python.org/pypi/blinkt)
-[![Python Versions](https://img.shields.io/pypi/pyversions/blinkt.svg)](https://pypi.python.org/pypi/blinkt)
+[![Build Status](https://travis-ci.com/pimoroni/plasma.svg?branch=master)](https://travis-ci.com/pimoroni/plasma)
+[![Coverage Status](https://coveralls.io/repos/github/pimoroni/plasma/badge.svg?branch=master)](https://coveralls.io/github/pimoroni/plasma?branch=master)
+[![PyPi Package](https://img.shields.io/pypi/v/plasmalights.svg)](https://pypi.python.org/pypi/plasmalights)
+[![Python Versions](https://img.shields.io/pypi/pyversions/plasmalights.svg)](https://pypi.python.org/pypi/plasmalights)
 
-https://shop.pimoroni.com/products/blinkt
+https://shop.pimoroni.com/products/plasma
 
 Eight super-bright RGB LED indicators, ideal for adding visual notifications to your Raspberry Pi on their own or on a pHAT stacking header.
 
@@ -13,7 +13,7 @@ Eight super-bright RGB LED indicators, ideal for adding visual notifications to 
 
 ### Full install (recommended):
 
-We've created an easy installation script that will install all pre-requisites and get your Blinkt!
+We've created an easy installation script that will install all pre-requisites and get your Plasma Arcade Button Lights
 up and running with minimal efforts. To run it, fire up Terminal which you'll find in Menu -> Accessories -> Terminal
 on your Raspberry Pi desktop, as illustrated below:
 
@@ -22,7 +22,7 @@ on your Raspberry Pi desktop, as illustrated below:
 In the new terminal window type the command exactly as it appears below (check for typos) and follow the on-screen instructions:
 
 ```bash
-curl https://get.pimoroni.com/blinkt | bash
+curl https://get.pimoroni.com/plasma | bash
 ```
 
 Alternatively, on Raspbian, you can download the `pimoroni-dashboard` and install your product by browsing to the relevant entry:
@@ -32,7 +32,7 @@ sudo apt-get install pimoroni
 ```
 (you will find the Dashboard under 'Accessories' too, in the Pi menu - or just run `pimoroni-dashboard` at the command line)
 
-If you choose to download examples you'll find them in `/home/pi/Pimoroni/blinkt/`.
+If you choose to download examples you'll find them in `/home/pi/Pimoroni/plasma/`.
 
 ### Manual install:
 
@@ -41,13 +41,13 @@ If you choose to download examples you'll find them in `/home/pi/Pimoroni/blinkt
 on Raspbian:
 
 ```bash
-sudo apt-get install python3-blinkt
+sudo apt-get install python3-plasmalights
 ```
 
 other environments: 
 
 ```bash
-sudo pip3 install blinkt
+sudo pip3 install plasmalights
 ```
 
 #### Library install for Python 2:
@@ -55,13 +55,13 @@ sudo pip3 install blinkt
 on Raspbian:
 
 ```bash
-sudo apt-get install python-blinkt
+sudo apt-get install python-plasmalights
 ```
 
 other environments: 
 
 ```bash
-sudo pip2 install blinkt
+sudo pip2 install plasmalights
 ```
 
 ### Development:
@@ -75,13 +75,6 @@ sudo python3 setup.py install
 
 ## Documentation & Support
 
-* Guides and tutorials - https://learn.pimoroni.com/blinkt
-* Function reference - http://docs.pimoroni.com/blinkt/
-* GPIO Pinout - https://pinout.xyz/pinout/blinkt
+* Guides and tutorials - https://learn.pimoroni.com/plasma
+* Function reference - http://docs.pimoroni.com/plasma/
 * Get help - http://forums.pimoroni.com/c/support
-
-## Unofficial / Third-party libraries
-
-* Golang library & examples by [Alex Ellis](https://www.alexellis.io) - https://github.com/alexellis/blinkt_go_examples
-* Java library by Jim Darby - https://github.com/hackerjimbo/PiJava
-* Java library by @HoldYourWaffle - https://github.com/HoldYourWaffle/blinkt4j

@@ -15,7 +15,6 @@ __pycache__
 *.orig.*
 packaging/*tar.xz
 library/debian/
-library/blinkt
 .coverage
 .tox/
 .vscode/

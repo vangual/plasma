@@ -1,6 +1,6 @@
-Source: blinkt
+Source: plasmalights
 Maintainer: Phil Howard <phil@pimoroni.com>
-Homepage: https://github.com/pimoroni/blinkt
+Homepage: https://github.com/pimoroni/plasma
 Section: python
 Priority: extra
 Build-Depends: debhelper (>= 9.0.0), dh-python, python-all (>= 2.7), python-setuptools, python3-all (>= 3.4), python3-setuptools
@@ -8,24 +8,24 @@ Standards-Version: 3.9.6
 X-Python-Version: >= 2.7
 X-Python3-Version: >= 3.4
 
-Package: python-blinkt
+Package: python-plasmalights
 Architecture: all
 Section: python
 Depends: ${misc:Depends}, ${python:Depends}, python-rpi.gpio
-Suggests: python-psutil, python-requests
-Description: Python library for the Pimoroni Blinkt!
- Blinkt! provides eight super-bright RGB LED indicators.
- Ideal for adding visual notifications to your Raspberry Pi.
+Suggests:
+Description: Python library for the Plasma Arcade Lights.
+ Plasma allows you to control a chain of RGB LED lights.
+ Ideal for adding illuminated buttons to your Raspberry Pi.
  .
  This is the Python 2 version of the package.
 
-Package: python3-blinkt
+Package: python3-plasmalights
 Architecture: all
 Section: python
 Depends: ${misc:Depends}, ${python3:Depends}, python3-rpi.gpio
-Suggests: python3-psutil, python3-requests
-Description: Python library for the Pimoroni Blinkt!
- Blinkt! provides eight super-bright RGB LED indicators.
- Ideal for adding visual notifications to your Raspberry Pi.
+Suggests:
+Description: Python library for the Plasma Arcade Lights.
+ Plasma allows you to control a chain of RGB LED lights.
+ Ideal for adding illuminated buttons to your Raspberry Pi.
  .
  This is the Python 3 version of the package.

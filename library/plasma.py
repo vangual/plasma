@@ -5,7 +5,7 @@ import time
 import RPi.GPIO as GPIO
 
 
-__version__ = '0.1.2'
+__version__ = '0.0.1'
 
 DAT = 14
 CLK = 15
@@ -18,7 +18,7 @@ pixels = []
 
 _light_count = 0
 _gpio_setup = False
-_clear_on_exit = True
+_clear_on_exit = False
 
 
 def _exit():
@@ -29,10 +29,27 @@ def _exit():
 
 
 def set_light_count(light_count):
+    """Set the number of light modules in your Plasma chain."""
     global _light_count, pixels, NUM_PIXELS
     light_count = light_count
     NUM_PIXELS = light_count * PIXELS_PER_LIGHT
     pixels = [[0, 0, 0, DEFAULT_BRIGHTNESS]] * light_count * PIXELS_PER_LIGHT
+
+
+def set_light(index, r, g, b):
+    """Set the RGB colour of an individual light in your Plasma chain.
+
+    This will set all four LEDs on the Plasma light to the same colour.
+
+    :param index: Index of the light in your chain (starting at 0)
+    :param r: Amount of red: 0 to 255
+    :param g: Amount of green: 0 to 255
+    :param b: Amount of blue: 0 to 255
+
+    """
+    offset = index * 4
+    for x in range(4):
+        set_pixel(offset + x, r, g, b)
 
 
 def set_brightness(brightness):
@@ -156,13 +173,13 @@ def set_pixel(x, r, g, b, brightness=None):
 
 
 def set_clear_on_exit(value=True):
-    """Set whether Blinkt! should be cleared upon exit.
+    """Set whether Plasma Lights should be cleared upon exit.
 
-    By default Blinkt! will turn off the pixels on exit, but calling::
+    By default Plasma will not turn off the pixels on exit, but calling::
 
-        blinkt.set_clear_on_exit(False)
+        plasma.set_clear_on_exit(True)
 
-    Will ensure that it does not.
+    Will ensure that it does.
 
     :param value: True or False (default True)
 

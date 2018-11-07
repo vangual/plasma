@@ -1,6 +1,6 @@
 README
 
-Blinkt! provides eight super-bright RGB LED indicators. Ideal for adding visual notifications to your Raspberry Pi.
+Plasma is an arcade button lighting system for your Raspberry Pi.
 
-Learn more: https://shop.pimoroni.com/products/blinkt
-For examples run: `curl -sS get.pimoroni.com/blinkt | bash`
+Learn more: https://shop.pimoroni.com/products/plasma
+For examples run: `curl -sS get.pimoroni.com/plasma | bash`
