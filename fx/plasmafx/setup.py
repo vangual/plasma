@@ -8,7 +8,7 @@ setup(
     version = '0.0.1',
     author = 'Philip Howard',
     author_email = 'phil@pimoroni.com',
-    description = 'LED effects sequencer',
+    description = 'LED effects sequencer for Plasma Arcade Button Lights',
     long_description = open('README.rst').read() + '\n' + open('CHANGELOG.txt').read(),
     license = 'MIT',
     keywords = 'plugin, effects, lighting',
