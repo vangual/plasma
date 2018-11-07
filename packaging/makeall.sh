@@ -3,8 +3,8 @@
 # script control variables
 
 reponame="" # leave this blank for auto-detection
-libname="" # leave this blank for auto-detection
-packagename="" # leave this blank for auto-selection
+libname="plasma" # leave this blank for auto-detection
+packagename="plasmalights" # leave this blank for auto-selection
 
 debianlog="debian/changelog"
 debcontrol="debian/control"

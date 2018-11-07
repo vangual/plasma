@@ -2,7 +2,7 @@
 
 # script control variables
 
-libname="" # leave this blank for auto-detection
+libname="plasma" # leave this blank for auto-detection
 sibname=() # name of sibling in packages list
 versionwarn="yes" # set to anything but 'yes' to turn off warning
 
