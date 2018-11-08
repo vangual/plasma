@@ -101,8 +101,10 @@ def main():
                 delta = time.time() * 60
                 offset_y = int(delta % pattern_h)
                 row = pattern[offset_y]
+                alpha = pattern_meta['alpha']
+                channels = 4 if alpha else 3
                 for x in range(opts.lights * 4):
-                    offset_x = (x * 3) % (pattern_w * 3)
+                    offset_x = (x * channels) % (pattern_w * channels)
                     r, g, b = row[offset_x:offset_x + 3]
                     plasma.set_pixel(x, r, g, b)
             else:
