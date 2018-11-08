@@ -1,0 +1,13 @@
+[Unit]
+Description=Plasma LED Sequencer Daemon
+DefaultDependencies=no
+After=local-fs.target
+
+[Service]
+ExecStart=/usr/bin/plasma -d
+Restart=on-failure
+Type=forking
+PIDFile=/var/run/plasma.pid
+
+[Install]
+WantedBy=multi-user.target
