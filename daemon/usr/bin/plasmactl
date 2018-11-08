@@ -5,6 +5,14 @@ if [ "$1" == "--help" ]; then
 	exit 0
 fi
 
+if [ "$1" == "install" ]; then
+	if [ -f "$2" ]; then
+		echo -e "\nInstalling $2 into /etc/plasma\n"
+		cp $2 /etc/plasma/
+		exit 0
+	fi
+fi
+
 if [ -p "/tmp/plasma" ]; then
 	echo "$@" > /tmp/plasma
 else
