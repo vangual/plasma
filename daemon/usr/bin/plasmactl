@@ -1,0 +1,12 @@
+#!/bin/bash
+
+if [ "$1" == "--help" ]; then
+	echo -e "\nUsage:\n    $0 <r> <g> <b> - Display an RGB colour (all values 0-255)\n    $0 <image name> - Display an image-based animation from /etc/plasma\n"
+	exit 0
+fi
+
+if [ -p "/tmp/plasma" ]; then
+	echo "$@" > /tmp/plasma
+else
+	echo -e "\n/tmp/plasma not found.\nPlasma daemon not running?\n"
+fi

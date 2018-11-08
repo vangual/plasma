@@ -1,0 +1,189 @@
+#!/usr/bin/env python
+
+import png
+import time
+import signal
+import os
+import sys
+import threading
+from datetime import datetime
+from optparse import OptionParser
+
+# Application Defaults
+PIPE_FILE = "/tmp/plasma"
+PATTERNS = "/etc/plasma/"
+FPS = 60
+LIGHTS = 10
+DEBUG = False
+
+# Log & PID files
+PID_FILE = "/var/run/plasma.pid"
+LOG_FILE = "/var/log/plasma.log"
+ERR_FILE = "/var/log/plasma.err"
+
+
+stopped = threading.Event()
+
+class FIFO():
+    def __init__(self, filename):
+        self.filename = filename
+        try:
+            os.mkfifo(self.filename)
+        except OSError, e:
+            pass
+        print("Opening...")
+        self.fifo = os.open(self.filename, os.O_RDONLY | os.O_NONBLOCK)
+        print("Open...")
+
+    def readline(self, timeout=1):
+        t_start = time.time()
+        buf = os.read(self.fifo, 1)
+        if len(buf) == 0:
+            return None
+        while time.time() - t_start < timeout:
+            c = os.read(self.fifo, 1)
+            if c == "\n":
+                return buf
+            if len(c) == 1:
+                buf += c
+        return None
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, e_type, e_value, traceback):
+        os.close(self.fifo)
+        os.remove(self.filename)
+
+
+def main():
+    opts = options()
+
+    if opts.daemonize: fork()
+
+    import plasma
+    plasma.set_light_count(opts.lights)
+
+    log("Starting Plasma in the {daemon} with framerate {fps}fps".format(
+        daemon='background' if opts.daemonize else 'foreground',
+        fps=opts.fps))
+
+    log("Plasma input pipe: {}".format(PIPE_FILE))
+
+    signal.signal(signal.SIGINT, signal_handler)
+    signal.signal(signal.SIGTERM, signal_handler)
+
+    with FIFO(PIPE_FILE) as fifo:
+        r, g, b = 0, 0, 0
+        pattern, pattern_w, pattern_h, pattern_meta = load_pattern("default")
+
+        while not stopped.wait(1.0 / FPS):
+            command = fifo.readline()
+            if command is not None:
+                command = command.strip()
+
+                if command == "stop":
+                    stopped.set()
+                    log('Received user command "stop". Stopping.')
+                    break
+
+                rgb = command.split(' ')
+                if len(rgb) == 3:
+                    try:
+                        r, g, b = [min(255, int(c)) for c in rgb]
+                        pattern, pattern_w, pattern_h, pattern_meta = None, 0, 0, None
+                    except ValueError:
+                        log("Invalid colour: {}".format(command))
+                else:
+                    pattern, pattern_w, pattern_h, pattern_meta = load_pattern(command)
+
+            if pattern is not None:
+                delta = time.time() * 60
+                offset_y = int(delta % pattern_h)
+                row = pattern[offset_y]
+                for x in range(opts.lights * 4):
+                    offset_x = x * 3
+                    r, g, b = row[offset_x:offset_x + 3]
+                    plasma.set_pixel(x, r, g, b)
+            else:
+                for x in range(opts.lights):
+                    plasma.set_light(x, r, g, b)
+
+            plasma.show()
+
+
+def load_pattern(pattern_name):
+    pattern_file = os.path.join(PATTERNS, "{}.png".format(pattern_name))
+    if os.path.isfile(pattern_file):
+        r = png.Reader(file=open(pattern_file))
+        pattern_w, pattern_h, pattern, pattern_meta = r.read()
+        pattern = list(pattern)
+        log("Loaded pattern file: {}".format(pattern_file))
+        return pattern, pattern_w, pattern_h, pattern_meta
+    else:
+        log("Invalid pattern file: {}".format(pattern_file))
+        return None, 0, 0, None
+
+
+def options():
+    parser = OptionParser()
+    parser.add_option("-d", "--daemonize", dest="daemonize", action="store_true", default=False,
+            help="run plasma as a daemon")
+    parser.add_option("-f", "--fps", action="store", dest="fps", type="int", default=FPS,
+            help="set plasma LED update framerate")
+    parser.add_option("-l", "--lights", action="store", dest="lights", type="int", default=LIGHTS,
+            help="set number of lights in your plasma chain")
+    return parser.parse_args()[0]
+
+
+def fork():
+    try:
+        pid = os.fork()
+        if pid > 0:
+            sys.exit(0)
+
+    except OSError, e:
+        print("Fork #1 failed: {} ({})".format(e.errno, e.strerror))
+        sys.exit(1)
+
+    os.chdir("/")
+    os.setsid()
+    os.umask(0)
+
+    try:
+        pid = os.fork()
+        if pid > 0:
+            with open(PID_FILE, 'w') as f:
+                f.write(str(pid))
+            sys.exit(0)
+
+    except OSError, e:
+        print("Fork #2 failed: {} ({})".format(e.errno, e.strerror))
+        sys.exit(1)
+
+    si = file("/dev/null", 'r')
+    so = file(LOG_FILE, 'a+')
+    se = file(ERR_FILE, 'a+', 0)
+
+    os.dup2(si.fileno(), sys.stdin.fileno())
+    os.dup2(so.fileno(), sys.stdout.fileno())
+    os.dup2(se.fileno(), sys.stderr.fileno())
+
+    return pid
+
+
+def log(msg):
+    sys.stdout.write(str(datetime.now()))
+    sys.stdout.write(": ")
+    sys.stdout.write(msg)
+    sys.stdout.write("\n")
+    sys.stdout.flush()
+
+
+def signal_handler(sig, frame):
+    log("Received SIGNAL {}. Stopping.".format(sig))
+    stopped.set()
+
+
+if __name__ == "__main__":
+    main()
