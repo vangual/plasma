@@ -102,7 +102,7 @@ def main():
                 offset_y = int(delta % pattern_h)
                 row = pattern[offset_y]
                 for x in range(opts.lights * 4):
-                    offset_x = x * 3
+                    offset_x = (x * 3) % (pattern_w * 3)
                     r, g, b = row[offset_x:offset_x + 3]
                     plasma.set_pixel(x, r, g, b)
             else:
