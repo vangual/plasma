@@ -5,9 +5,17 @@ if [ $(id -u) -ne 0 ]; then
 	exit 1
 fi
 
-cd library
-sudo python setup.py install
 
-cd daemon
-./install
-cd ..
+WORKING_DIR=`pwd`
+
+apt update
+apt install -y python-pip
+pip install pypng
+
+cd $WORKING_DIR/library
+sudo python setup.py install
+cd $WORKING_DIR
+
+cd $WORKING_DIR/daemon
+./install.sh
+cd $WORKING_DIR
