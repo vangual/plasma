@@ -41,7 +41,7 @@ def use_pins(data, clock):
 def set_light_count(light_count):
     """Set the number of light modules in your Plasma chain."""
     global _light_count, pixels, NUM_PIXELS
-    light_count = light_count
+    _light_count = light_count
     NUM_PIXELS = light_count * PIXELS_PER_LIGHT
     pixels = [[0, 0, 0, DEFAULT_BRIGHTNESS]] * light_count * PIXELS_PER_LIGHT
 
