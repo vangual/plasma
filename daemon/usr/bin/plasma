@@ -12,7 +12,7 @@ from optparse import OptionParser
 # Application Defaults
 PIPE_FILE = "/tmp/plasma"
 PATTERNS = "/etc/plasma/"
-FPS = 60
+FPS = 30
 LIGHTS = 10
 DEBUG = False
 
@@ -24,12 +24,13 @@ ERR_FILE = "/var/log/plasma.err"
 
 stopped = threading.Event()
 
+
 class FIFO():
     def __init__(self, filename):
         self.filename = filename
         try:
             os.mkfifo(self.filename)
-        except OSError, e:
+        except OSError:
             pass
         print("Opening...")
         self.fifo = os.open(self.filename, os.O_RDONLY | os.O_NONBLOCK)
@@ -59,7 +60,8 @@ class FIFO():
 def main():
     opts = options()
 
-    if opts.daemonize: fork()
+    if opts.daemonize:
+        fork()
 
     import plasma
     plasma.set_light_count(opts.lights)
@@ -76,8 +78,11 @@ def main():
     with FIFO(PIPE_FILE) as fifo:
         r, g, b = 0, 0, 0
         pattern, pattern_w, pattern_h, pattern_meta = load_pattern("default")
+        alpha = pattern_meta['alpha']
+        channels = 4 if alpha else 3
 
-        while not stopped.wait(1.0 / FPS):
+        while not stopped.wait(1.0 / opts.fps):
+            delta = time.time() * 60
             command = fifo.readline()
             if command is not None:
                 command = command.strip()
@@ -94,19 +99,24 @@ def main():
                         pattern, pattern_w, pattern_h, pattern_meta = None, 0, 0, None
                     except ValueError:
                         log("Invalid colour: {}".format(command))
+                elif len(rgb) == 2 and rgb[0] == "fps":
+                    try:
+                        opts.fps = int(rgb[1])
+                        log("Framerate set to: {}fps".format(rgb[1]))
+                    except ValueError:
+                        log("Invalid framerate: {}".format(rgb[1]))
                 else:
                     pattern, pattern_w, pattern_h, pattern_meta = load_pattern(command)
+                    alpha = pattern_meta['alpha']
+                    channels = 4 if alpha else 3
 
             if pattern is not None:
-                delta = time.time() * 60
                 offset_y = int(delta % pattern_h)
                 row = pattern[offset_y]
-                alpha = pattern_meta['alpha']
-                channels = 4 if alpha else 3
                 for x in range(opts.lights * 4):
                     offset_x = (x * channels) % (pattern_w * channels)
                     r, g, b = row[offset_x:offset_x + 3]
-                    plasma.set_pixel(x, r, g, b)
+                    plasma.pixels[x] = (r, g, b, 3)
             else:
                 for x in range(opts.lights):
                     plasma.set_light(x, r, g, b)
@@ -130,11 +140,11 @@ def load_pattern(pattern_name):
 def options():
     parser = OptionParser()
     parser.add_option("-d", "--daemonize", dest="daemonize", action="store_true", default=False,
-            help="run plasma as a daemon")
+                      help="run plasma as a daemon")
     parser.add_option("-f", "--fps", action="store", dest="fps", type="int", default=FPS,
-            help="set plasma LED update framerate")
+                      help="set plasma LED update framerate")
     parser.add_option("-l", "--lights", action="store", dest="lights", type="int", default=LIGHTS,
-            help="set number of lights in your plasma chain")
+                      help="set number of lights in your plasma chain")
     return parser.parse_args()[0]
 
 
