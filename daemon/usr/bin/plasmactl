@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [ "$1" == "--help" ]; then
-	echo -e "\nUsage:\n    $0 <r> <g> <b> - Display an RGB colour (all values 0-255)\n    $0 <image name> - Display an image-based animation from /etc/plasma\n    $0 --install <filename> - Install an animation file\n    $0 --list - List available animations\n"
+	echo -e "\nUsage:\n    $0 <r> <g> <b> - Display an RGB colour (all values 0-255)\n    $0 <image name> - Display an image-based animation from /etc/plasma\n    $0 fps <fps> - Set the update framerate\n    $0 --install <filename> - Install an animation file\n    $0 --list - List available animations\n"
 	exit 0
 fi
 
