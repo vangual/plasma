@@ -1,11 +1,22 @@
 #!/bin/bash
 
 if [ "$1" == "--help" ]; then
-	echo -e "\nUsage:\n    $0 <r> <g> <b> - Display an RGB colour (all values 0-255)\n    $0 <image name> - Display an image-based animation from /etc/plasma\n"
+	echo -e "\nUsage:\n    $0 <r> <g> <b> - Display an RGB colour (all values 0-255)\n    $0 <image name> - Display an image-based animation from /etc/plasma\n    $0 --install <filename> - Install an animation file\n    $0 --list - List available animations\n"
 	exit 0
 fi
 
-if [ "$1" == "install" ]; then
+if [ "$1" == "--list" ]; then
+    echo -e "\nAvailable patterns:"
+    for f in /etc/plasma/*.png; do
+	name=$(basename -- "$f")
+        name="${name%.*}"
+        echo -e "    $name"
+    done
+    echo -e ""
+    exit 0
+fi
+
+if [ "$1" == "--install" ]; then
 	if [ -f "$2" ]; then
 		echo -e "\nInstalling $2 into /etc/plasma\n"
 		cp $2 /etc/plasma/
