@@ -57,6 +57,18 @@ other environments:
 sudo pip2 install plasmalights
 ```
 
+### Using Plasma
+
+Plasma installs two programs onto your Raspberry Pi. `plasma` itself and a tool called `plasmactl` you can use to install and switch lighting effects. Plasma runs as a service on your system.
+
+`plasmactl` commands:
+
+* `plasmactl 255 0 0` - Set Plasma lights to R, G, B colour. Red in this case.
+* `plasmactl <pattern>` - Set Plasma lights to pattern image
+* `plasmactl fps <fps>` - Change plasma effect framerate (default is 30, lower FPS = less CPU)
+* `plasmactl --list` - List all available patterns
+* `sudo plasmactl --install <pattern>` - Install a new pattern, where `<pattern>` is the filename of a 24bit PNG image file
+
 ### Development:
 
 If you want to contribute, or like living on the edge of your seat by having the latest code, you should clone this repository, `cd` to the library directory, and run:
