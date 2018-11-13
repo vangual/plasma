@@ -7,7 +7,9 @@
 
 https://shop.pimoroni.com/products/plasma
 
-Eight super-bright RGB LED indicators, ideal for adding visual notifications to your Raspberry Pi on their own or on a pHAT stacking header.
+Add technicolour brilliance to your Picade or Picade Console with this addressable RGB LED arcade button kit, available in a 6-button kit (console buttons) or 10-button kit (all buttons).
+
+Each Picade Plasma PCB has four tiny, addressable, RGB LEDs (APA102) and a data in and data out JST connector. They're designed to fit neatly inside the recess on the back of our low-profile arcade buttons and shine their light through the clear plastic. The white PCB bounces an spilled light from the LEDs to give them extra GLOW.
 
 ## Installing
 
