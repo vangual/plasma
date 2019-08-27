@@ -127,7 +127,7 @@ def main():
 def load_pattern(pattern_name):
     pattern_file = os.path.join(PATTERNS, "{}.png".format(pattern_name))
     if os.path.isfile(pattern_file):
-        r = png.Reader(file=open(pattern_file))
+        r = png.Reader(file=open(pattern_file, 'rb'))
         pattern_w, pattern_h, pattern, pattern_meta = r.read()
         pattern = list(pattern)
         log("Loaded pattern file: {}".format(pattern_file))
@@ -154,7 +154,7 @@ def fork():
         if pid > 0:
             sys.exit(0)
 
-    except OSError, e:
+    except OSError as e:
         print("Fork #1 failed: {} ({})".format(e.errno, e.strerror))
         sys.exit(1)
 
@@ -169,7 +169,7 @@ def fork():
                 f.write(str(pid))
             sys.exit(0)
 
-    except OSError, e:
+    except OSError as e:
         print("Fork #2 failed: {} ({})".format(e.errno, e.strerror))
         sys.exit(1)
 
