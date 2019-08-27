@@ -63,8 +63,8 @@ def main():
     if opts.daemonize:
         fork()
 
-    import plasma
-    plasma.set_light_count(opts.lights)
+    from plasma.gpio import PlasmaGPIO
+    plasma = PlasmaGPIO(opts.lights)
 
     log("Starting Plasma in the {daemon} with framerate {fps}fps".format(
         daemon='background' if opts.daemonize else 'foreground',
@@ -116,7 +116,7 @@ def main():
                 for x in range(opts.lights * 4):
                     offset_x = (x * channels) % (pattern_w * channels)
                     r, g, b = row[offset_x:offset_x + 3]
-                    plasma.pixels[x] = (r, g, b, 3)
+                    plasma.set_pixel(x, r, g, b)
             else:
                 for x in range(opts.lights):
                     plasma.set_light(x, r, g, b)
