@@ -8,7 +8,7 @@ class PlasmaSerial(Plasma):
         Plasma.__init__(self, light_count)
 
     def show(self):
-        sof = bytes("LEDS", encoding="ascii")
+        sof = b"LEDS"
         eof = b"\x00\x00\x00\xff"
 
         pixels = []
@@ -16,6 +16,5 @@ class PlasmaSerial(Plasma):
             for channel in pixel:
                 pixels += [channel]
 
-        #self._serial.write(sof + bytes([channel for pixel in self._pixels for channel in pixel]) + eof)
-        self._serial.write(sof + bytes(pixels) + eof)
+        self._serial.write(sof + bytearray(pixels) + eof)
         self._serial.flush()

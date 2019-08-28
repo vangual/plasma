@@ -9,7 +9,13 @@ class Plasma():
         self._light_count = light_count
         self._pixels = [[0, 0, 0, DEFAULT_BRIGHTNESS]] * light_count * PIXELS_PER_LIGHT
 
-    def show():
+    def get_num_pixels(self):
+        return self._light_count * PIXELS_PER_LIGHT
+
+    def get_num_lights(self):
+        return self._light_count
+
+    def show(self):
         raise NotImplementedError
 
     def set_light_count(self, light_count):
