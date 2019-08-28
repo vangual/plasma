@@ -63,8 +63,9 @@ def main():
     if opts.daemonize:
         fork()
 
-    from plasma.gpio import PlasmaGPIO
-    plasma = PlasmaGPIO(opts.lights)
+    from plasma import get_device
+    Plasma, args = get_device(opts.device)
+    plasma = Plasma(opts.lights, **args)
 
     log("Starting Plasma in the {daemon} with framerate {fps}fps".format(
         daemon='background' if opts.daemonize else 'foreground',
@@ -145,6 +146,7 @@ def options():
                       help="set plasma LED update framerate")
     parser.add_option("-l", "--lights", action="store", dest="lights", type="int", default=LIGHTS,
                       help="set number of lights in your plasma chain")
+    parser.add_option("-o", "--device", default="GPIO:14:15")
     return parser.parse_args()[0]
 
 

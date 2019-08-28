@@ -1,4 +1,5 @@
 from colorsys import hsv_to_rgb
+import atexit
 
 PIXELS_PER_LIGHT = 4
 DEFAULT_BRIGHTNESS = 3
@@ -8,15 +9,27 @@ class Plasma():
     def __init__(self, light_count):
         self._light_count = light_count
         self._pixels = [[0, 0, 0, DEFAULT_BRIGHTNESS]] * light_count * PIXELS_PER_LIGHT
+        self._clear_on_exit = False
 
-    def get_num_pixels(self):
+        atexit.register(self.atexit)
+
+    def get_pixel_count(self):
         return self._light_count * PIXELS_PER_LIGHT
 
-    def get_num_lights(self):
+    def get_light_count(self):
         return self._light_count
 
     def show(self):
         raise NotImplementedError
+
+    def clear(self):
+        raise NotImplementedError
+
+    def atexit(self):
+        if not self._clear_on_exit:
+            return
+        self.clear()
+        self.show()
 
     def set_light_count(self, light_count):
         raise NotImplementedError
@@ -26,6 +39,9 @@ class Plasma():
 
     def set_pixel_hsv(self, index, h, s, v):
         raise NotImplementedError
+
+    def set_clear_on_exit(self, status=True):
+        self._clear_on_exit = status
 
     def set_light(self, index, r, g, b, brightness=None):
         """Set the RGB colour of an individual light in your Plasma chain.
