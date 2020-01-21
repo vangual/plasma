@@ -1,9 +1,9 @@
-from colorsys import hsv_to_rgb
 import atexit
 
 PIXELS_PER_LIGHT = 4
 DEFAULT_BRIGHTNESS = 3
 MAX_BRIGHTNESS = 3
+
 
 class Plasma():
     def __init__(self, light_count):
@@ -20,9 +20,6 @@ class Plasma():
         return self._light_count
 
     def show(self):
-        raise NotImplementedError
-
-    def clear(self):
         raise NotImplementedError
 
     def atexit(self):
@@ -69,7 +66,7 @@ class Plasma():
         :param brightness: Brightness: 0.0 to 1.0 (default is 1.0)
 
         """
-        for x in range(_light_count * PIXELS_PER_LIGHT):
+        for x in range(self._light_count * PIXELS_PER_LIGHT):
             self.set_pixel(x, r, g, b, brightness)
 
     def get_pixel(self, x):

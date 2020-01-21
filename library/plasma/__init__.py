@@ -1,5 +1,6 @@
 __version__ = '1.0.0'
 
+
 def get_device(descriptor):
     """Return a Plasma device class and arguments.
 
@@ -25,4 +26,3 @@ def get_device(descriptor):
     if dsc[0] == "SERIAL":
         from .usb import PlasmaSerial
         return PlasmaSerial, {'port': dsc[1]}
-

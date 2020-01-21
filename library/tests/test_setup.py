@@ -10,7 +10,7 @@ def test_setup():
     sys.modules['RPi'] = mock.Mock()
     sys.modules['RPi'].GPIO = gpio
     sys.modules['RPi.GPIO'] = gpio
-    import plasma
+    from plasma import legacy as plasma
     plasma.show()
 
     assert gpio.pin_modes[plasma.DAT] == gpio.OUT

@@ -1,6 +1,7 @@
 import time
 from .core import Plasma
 
+
 class PlasmaGPIO(Plasma):
     def __init__(self, light_count, gpio_data=14, gpio_clock=15, gpio=None):
         self._gpio = gpio
