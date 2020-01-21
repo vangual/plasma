@@ -3,18 +3,28 @@
 import math
 import time
 import colorsys
+import sys
 
 import plasma
 
+NUM_LIGHTS = 10
 FALLOFF = 1.9
 SCAN_SPEED = 4
 
-plasma.set_light_count(10)
-plasma.set_clear_on_exit()
 
 start_time = time.time()
 
-print('Num pixels: {}'.format(plasma.NUM_PIXELS))
+if len(sys.argv) > 1:
+    from plasma import get_device
+    Plasma, args = get_device(sys.argv[1])
+    plasma = Plasma(NUM_LIGHTS, **args)
+else:
+    from plasma.gpio import PlasmaGPIO
+    plasma = PlasmaGPIO(NUM_LIGHTS, 14, 15)
+
+plasma.set_clear_on_exit()
+
+print('Num pixels: {}'.format(plasma.get_pixel_count()))
 
 while True:
     delta = (time.time() - start_time)
@@ -28,12 +38,12 @@ while True:
     hue = int(round(offset * 360))
 
     # Maximum number basex on NUM_PIXELS
-    max_val = plasma.NUM_PIXELS - 1
+    max_val = plasma.get_pixel_count() - 1
 
     # Now we generate a value from 0 to max_val
     offset = int(round(offset * max_val))
 
-    for x in range(plasma.NUM_PIXELS):
+    for x in range(plasma.get_pixel_count()):
         sat = 1.0
 
         val = max_val - (abs(offset - x) * FALLOFF)
