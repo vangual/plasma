@@ -10,10 +10,15 @@ if [ -d "/etc/plasma" ]; then
 	exit
 fi
 
+printf "Installing requirements\n"
+sudo pip install pypng plasma
+
+printf "Installing plasma\n"
 mkdir /etc/plasma
 cp etc/plasma/* /etc/plasma
 cp usr/bin/* /usr/bin/
 
+printf "Installing /etc/systemd/system/plasma.service\n"
 cp etc/systemd/system/plasma.service /etc/systemd/system/plasma.service
 systemctl reenable plasma.service
 systemctl start plasma.service

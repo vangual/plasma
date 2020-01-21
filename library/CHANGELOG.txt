@@ -1,3 +1,9 @@
+1.0.0
+-----
+
+* API refactor, use plasma.legacy for old API
+* USB support for Picade Player X
+
 0.0.1
 -----
 
