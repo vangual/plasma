@@ -11,7 +11,7 @@ if [ -d "/etc/plasma" ]; then
 fi
 
 printf "Installing requirements\n"
-sudo pip install pypng plasma
+sudo pip install pypng plasmalights
 
 printf "Installing plasma\n"
 mkdir /etc/plasma
