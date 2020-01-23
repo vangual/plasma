@@ -1,15 +1,23 @@
-# Plasma Arcade Lights
+# Plasma: LED Sequencing
+
+Plasma is an LED/Light sequencing suite written to harmonise a variety of LED strand/board types and interfaces into a standard API for write-once-run-anyway lighting code.
+
+Plasma also includes plasmad, a system daemon for sequencing light strips using PNG images to provide animation frames.
 
 [![Build Status](https://travis-ci.com/pimoroni/plasma.svg?branch=master)](https://travis-ci.com/pimoroni/plasma)
 [![Coverage Status](https://coveralls.io/repos/github/pimoroni/plasma/badge.svg?branch=master)](https://coveralls.io/github/pimoroni/plasma?branch=master)
 [![PyPi Package](https://img.shields.io/pypi/v/plasmalights.svg)](https://pypi.python.org/pypi/plasmalights)
 [![Python Versions](https://img.shields.io/pypi/pyversions/plasmalights.svg)](https://pypi.python.org/pypi/plasmalights)
 
-https://shop.pimoroni.com/products/plasma
+## Compatible Products
 
-Add technicolour brilliance to your Picade or Picade Console with this addressable RGB LED arcade button kit, available in a 6-button kit (console buttons) or 10-button kit (all buttons).
+Plasma was originally written to provide an easy way to sequence lights and swap out patterns for the Pimoroni Plasma kit.
 
-Each Picade Plasma PCB has four tiny, addressable, RGB LEDs (APA102) and a data in and data out JST connector. They're designed to fit neatly inside the recess on the back of our low-profile arcade buttons and shine their light through the clear plastic. The white PCB bounces an spilled light from the LEDs to give them extra GLOW.
+- https://shop.pimoroni.com/products/picade-plasma-kit-illuminated-arcade-buttons
+- https://shop.pimoroni.com/products/player-x-usb-games-controller-pcb
+- https://shop.pimoroni.com/products/blinkt
+- https://shop.pimoroni.com/products/unicorn-hat
+- https://shop.pimoroni.com/products/unicorn-phat
 
 ## Installing
 
@@ -61,7 +69,7 @@ sudo pip2 install plasmalights
 
 ### Using Plasma Daemon
 
-Note: If you're using Picade Player X you should edit daemon/etc/systemd/system/plasma.service and change the output device option from `-o GPIO:14:15` to `-o SERIAL:/dev/ttyACM0`.
+Note: If you're using Picade Player X you should edit daemon/etc/systemd/system/plasma.service and change the output device option from `-o GPIO:14:15` to `-o SERIAL:/dev/ttyACM0`. If you're using Unicorn HAT or pHAT you should use `-o WS281X:WS2812:18:0`.
 
 To install the Plasma daemon you should clone this repository, navigate to the "daemon" directory and run the installer:
 
