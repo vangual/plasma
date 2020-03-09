@@ -69,8 +69,6 @@ sudo pip2 install plasmalights
 
 ### Using Plasma Daemon
 
-Note: If you're using Picade Player X you should edit daemon/etc/systemd/system/plasma.service and change the output device option from `-o GPIO:14:15` to `-o SERIAL:/dev/ttyACM0`. If you're using Unicorn HAT or pHAT you should use `-o WS281X:WS2812:18:0`.
-
 To install the Plasma daemon you should clone this repository, navigate to the "daemon" directory and run the installer:
 
 ```
@@ -78,6 +76,14 @@ git clone https://github.com/pimoroni/plasma
 cd plasma/daemon
 sudo ./install
 ```
+
+---
+
+Note: If you're using Picade Player X you should edit daemon/etc/systemd/system/plasma.service and change the output device option from `-o GPIO:15:14` to `-o SERIAL:/dev/ttyACM0`. If you're using Unicorn HAT or pHAT you should use `-o WS281X:WS2812:18:0`.
+
+If you're using GPIO on a Picade HAT you can adjust the pins accordingly using `-o GPIO:<data>:<clock>` where data and clock are valid BCM pins. If you're using the old Plasma/Hack header you may need to swap from `-o GPIO:15:14` to `-o GPIO:14:15` depending on how your connections are wired.
+
+---
 
 The Plasma daemon installer installs two programs onto your Raspberry Pi. `plasma` itself and a tool called `plasmactl` you can use to install and switch lighting effects. Plasma runs as a service on your system.
 

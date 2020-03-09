@@ -146,7 +146,8 @@ def options():
                       help="set plasma LED update framerate")
     parser.add_option("-l", "--lights", action="store", dest="lights", type="int", default=LIGHTS,
                       help="set number of lights in your plasma chain")
-    parser.add_option("-o", "--device", default="GPIO:14:15")
+    parser.add_option("-o", "--device", default="GPIO:15:14",
+                      help="set output device, default is GPIO, BCM15 = Data, BCM14 = Clock")
     return parser.parse_args()[0]
 
 
