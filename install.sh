@@ -10,7 +10,7 @@ WORKING_DIR=`pwd`
 
 apt update
 apt install -y python-pip
-pip install pypng
+pip install pypng pyserial
 
 cd $WORKING_DIR/library
 sudo python setup.py install
