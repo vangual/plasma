@@ -10,6 +10,7 @@ class Plasma():
         self._light_count = light_count
         self._pixels = [[0, 0, 0, DEFAULT_BRIGHTNESS]] * light_count * PIXELS_PER_LIGHT
         self._clear_on_exit = False
+        self._active_map = None
 
         atexit.register(self.atexit)
 
@@ -18,6 +19,32 @@ class Plasma():
 
     def get_light_count(self):
         return self._light_count
+
+    def get_mapped_pixel(self, x):
+        if not self._active_map:
+            return x
+
+        if x < 0 or x > self.get_pixel_count():
+            raise ValueError('Asked for a pixel outside known range.')
+
+        try:
+            return self._active_map[x]
+        except IndexError:
+            return x
+
+    def set_map(self, newmap):
+        if not isinstance(newmap, list):
+            raise TypeError('Parameter must be a list type.')
+
+        if len(newmap) != self.get_pixel_count():
+            raise ValueError('Amount of map elements does not match pixel count.')
+
+        # Verify the validity of the individual map targets
+        for mapping in newmap:
+            if mapping < 0 or mapping > self.get_pixel_count():
+                raise ValueError('Invalid mapping found. Points to out of range pixels.')
+
+        self._active_map = newmap
 
     def show(self):
         raise NotImplementedError
@@ -75,6 +102,7 @@ class Plasma():
         :param x: The horizontal position of the pixel: 0 to 7
 
         """
+        x = self.get_mapped_pixel(x)
         r, g, b, brightness = self._pixels[x]
         brightness /= float(MAX_BRIGHTNESS)
 
@@ -92,6 +120,8 @@ class Plasma():
         :param brightness: Brightness: 0.0 to 1.0 (default around 0.2)
 
         """
+        x = self.get_mapped_pixel(x)
+        
         if brightness is None:
             brightness = self._pixels[x][3]
         else:

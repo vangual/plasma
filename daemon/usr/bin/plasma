@@ -6,6 +6,7 @@ import signal
 import os
 import sys
 import threading
+import json
 from datetime import datetime
 from optparse import OptionParser
 
@@ -15,6 +16,7 @@ PATTERNS = "/etc/plasma/"
 FPS = 30
 LIGHTS = 10
 DEBUG = False
+MAP_FILE = "/etc/plasma/maps.json"
 
 # Log & PID files
 PID_FILE = "/var/run/plasma.pid"
@@ -78,6 +80,15 @@ def main():
     log("Starting Plasma in the {daemon} with framerate {fps}fps".format(
         daemon='background' if opts.daemonize else 'foreground',
         fps=opts.fps))
+
+    if opts.map_name == '':
+        opts.map_name = opts.device
+    map_result = load_map(opts.map_name, opts.map_file)
+    if map_result:
+        log("Loading remap {}...".format(opts.map_name))
+        plasma.set_map(map_result)
+    else:
+        log("Skipping pixel remapping.")
 
     log("Plasma input pipe: {}".format(PIPE_FILE))
 
@@ -146,6 +157,30 @@ def load_pattern(pattern_name):
         return None, 0, 0, None
 
 
+def load_map(map_name, map_file=MAP_FILE):
+    if not map_name:
+        return None
+    try:
+        with open(map_file, 'rb') as mf:
+            try:
+                struct_from_file = json.load(mf)
+            except json.decoder.JSONDecodeError:
+                log("Error loading the map file contents. You may need to recreate the map.")
+                return None
+            if not struct_from_file or not struct_from_file.get('maps'):
+                log("Error loading the map file contents. You may need to recreate the map.")
+                return None
+            maps = struct_from_file.get('maps')
+            if not maps.get(map_name):
+                log("Could not find a map named {}. No remapping applied.".format(map_name))
+                return None
+            else:
+                return maps.get(map_name)
+    except FileNotFoundError:
+        log("Could not find map file ({}). No remapping applied.".format(map_file))
+        return False
+
+
 def options():
     parser = OptionParser()
     parser.add_option("-d", "--daemonize", dest="daemonize", action="store_true", default=False,
@@ -156,6 +191,10 @@ def options():
                       help="set number of lights in your plasma chain")
     parser.add_option("-o", "--device", default="GPIO:15:14",
                       help="set output device, default is GPIO, BCM15 = Data, BCM14 = Clock")
+    parser.add_option("-m", "--mapfile", default=MAP_FILE,
+                      help="set path to the json file containing light remapping data")
+    parser.add_option("-n", "--mapname", default="",
+                      help="overrides which of the remaps to load, defaults to the device name")
     return parser.parse_args()[0]
 
 
