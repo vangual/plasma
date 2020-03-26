@@ -1,4 +1,5 @@
 import atexit
+import colorsys
 
 PIXELS_PER_LIGHT = 4
 DEFAULT_BRIGHTNESS = 3
@@ -32,10 +33,12 @@ class Plasma():
         raise NotImplementedError
 
     def set_light_hsv(self, index, h, s, v):
-        raise NotImplementedError
+        (rf, gf, bf) = colorsys.hsv_to_rgb(h / 255, s / 255, v / 255)
+        self.set_light(index, int(rf * 255), int(gf * 255), int(bf * 255))
 
     def set_pixel_hsv(self, index, h, s, v):
-        raise NotImplementedError
+        (rf, gf, bf) = colorsys.hsv_to_rgb(h / 255, s / 255, v / 255)
+        self.set_pixel(index, int(rf * 255), int(gf * 255), int(bf * 255))
 
     def set_clear_on_exit(self, status=True):
         self._clear_on_exit = status
