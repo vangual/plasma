@@ -67,7 +67,7 @@ class Plasma():
     def set_clear_on_exit(self, status=True):
         self._clear_on_exit = status
 
-    def set_light(self, index, r, g, b, brightness=None):
+    def set_light(self, index, r, g, b, brightness=None, skip_remap=False):
         """Set the RGB colour of an individual light in your Plasma chain.
 
         This will set all four LEDs on the Plasma light to the same colour.
@@ -76,11 +76,13 @@ class Plasma():
         :param r: Amount of red: 0 to 255
         :param g: Amount of green: 0 to 255
         :param b: Amount of blue: 0 to 255
+        :param brightness: Brightness: 0.0 to 1.0 (default is 1.0)
+        :param skip_remap: Call ignores any remapping (defaults to False)
 
         """
         offset = index * PIXELS_PER_LIGHT
         for x in range(PIXELS_PER_LIGHT):
-            self.set_pixel(offset + x, r, g, b, brightness)
+            self.set_pixel(offset + x, r, g, b, brightness, skip_remap=skip_remap)
 
     def set_all(self, r, g, b, brightness=None):
         """Set the RGB value and optionally brightness of all pixels.
@@ -96,19 +98,21 @@ class Plasma():
         for x in range(self._light_count * PIXELS_PER_LIGHT):
             self.set_pixel(x, r, g, b, brightness)
 
-    def get_pixel(self, x):
+    def get_pixel(self, x, skip_remap=False):
         """Get the RGB and brightness value of a specific pixel.
 
         :param x: The horizontal position of the pixel: 0 to 7
 
         """
-        x = self.get_mapped_pixel(x)
+        if not skip_remap:
+            x = self.get_mapped_pixel(x)
+
         r, g, b, brightness = self._pixels[x]
         brightness /= float(MAX_BRIGHTNESS)
 
         return r, g, b, round(brightness, 3)
 
-    def set_pixel(self, x, r, g, b, brightness=None):
+    def set_pixel(self, x, r, g, b, brightness=None, skip_remap=False):
         """Set the RGB value, and optionally brightness, of a single pixel.
 
         If you don't supply a brightness value, the last value will be kept.
@@ -120,8 +124,9 @@ class Plasma():
         :param brightness: Brightness: 0.0 to 1.0 (default around 0.2)
 
         """
-        x = self.get_mapped_pixel(x)
-        
+        if not skip_remap:
+            x = self.get_mapped_pixel(x)
+
         if brightness is None:
             brightness = self._pixels[x][3]
         else:
